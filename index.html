@@ -501,8 +501,9 @@
           <label>Email<input name="email" type="email" autocomplete="email" required></label>
         </div>
         <label>Message<textarea name="message" required></textarea></label>
+        <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
         <div class="actions">
-          <button class="btn" type="submit">Write email</button>
+          <button class="btn" type="submit" id="send-btn">Send message</button>
         </div>
         <p class="note" id="form-note" role="status"></p>
       </form>
@@ -555,19 +556,31 @@
     document.querySelectorAll('section.block').forEach(function (s) { io.observe(s); });
   }
 
-  // Contact form opens a pre-filled email
+  // Contact form sends through FormSubmit (no backend needed)
   var EMAIL = 'ian.mederos.0702@gmail.com';
   var form = document.getElementById('contact-form');
   var note = document.getElementById('form-note');
+  var sendBtn = document.getElementById('send-btn');
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     var d = new FormData(form);
     var name = (d.get('name') || '').trim(), email = (d.get('email') || '').trim(), msg = (d.get('message') || '').trim();
     if (!name || !email || !msg) { note.textContent = 'Add your name, email, and a message first.'; return; }
-    var subject = 'Hello from ' + name;
-    var body = msg + '\n\n— ' + name + ' (' + email + ')';
-    window.location.href = 'mailto:' + EMAIL + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
-    note.textContent = 'Your email app should open with the message ready to send. If it doesn’t, write to ' + EMAIL + '.';
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { note.textContent = 'That email address doesn\u2019t look right.'; return; }
+    sendBtn.disabled = true; sendBtn.textContent = 'Sending\u2026'; note.textContent = '';
+    fetch('https://formsubmit.co/ajax/' + EMAIL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ name: name, email: email, message: msg, _subject: 'Portfolio message from ' + name, _replyto: email, _honey: d.get('_honey') || '', _template: 'table' })
+    }).then(function (r) { return r.ok ? r.json() : Promise.reject(r); }).then(function () {
+      form.reset();
+      sendBtn.textContent = 'Sent';
+      note.textContent = 'Thanks, ' + name + '. Your message is on its way; I\u2019ll reply to ' + email + '.';
+      setTimeout(function () { sendBtn.disabled = false; sendBtn.textContent = 'Send message'; }, 4000);
+    }).catch(function () {
+      sendBtn.disabled = false; sendBtn.textContent = 'Send message';
+      note.textContent = 'The message couldn\u2019t be sent right now. Write to ' + EMAIL + ' instead.';
+    });
   });
 
   document.getElementById('copy-email').addEventListener('click', function (e) {
