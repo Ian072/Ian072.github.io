@@ -99,7 +99,7 @@
   .btn.ghost:hover { border-color: var(--accent); }
 
   .figure { margin: 0; }
-  .hand { width: 100%; max-width: 380px; display: block; margin: 0 auto; overflow: visible; cursor: pointer; }
+  .hand { width: 100%; max-width: 380px; display: block; margin: 0 auto; overflow: visible; }
   .hand .bone { stroke: var(--accent); stroke-width: 2.2; stroke-linecap: round; fill: none; }
   .hand .attn { stroke: var(--accent); stroke-width: 1; fill: none; stroke-dasharray: 2 5; }
   .hand .joint { fill: var(--surface); stroke: var(--accent); stroke-width: 2; }
@@ -183,6 +183,8 @@
   .photos img { width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 14px; display: block; }
   .card.with-photo { display: grid; grid-template-columns: 180px 1fr; gap: 24px; align-items: center; }
   .card.with-photo img { width: 100%; height: auto; aspect-ratio: 593 / 904; object-fit: cover; border-radius: 10px; display: block; }
+  .card.with-photo.landscape { grid-template-columns: 260px 1fr; }
+  .card.with-photo.landscape img { aspect-ratio: 4 / 3; }
   .emoji { font-size: 26px; line-height: 1; display: block; margin-bottom: 12px; }
 
   /* Contact */
@@ -219,8 +221,9 @@
     .skills { grid-template-columns: 1fr; row-gap: 4px; }
     .skills dd { margin-bottom: 14px; }
     .pairs, .row, .photos { grid-template-columns: 1fr; }
-    .card.with-photo { grid-template-columns: 1fr; }
+    .card.with-photo, .card.with-photo.landscape { grid-template-columns: 1fr; }
     .card.with-photo img { max-width: 240px; }
+    .card.with-photo.landscape img { max-width: none; }
     .stats { grid-template-columns: 1fr; }
     .stat, .stat + .stat { padding: 14px 0; border-left: 0; }
     .stat + .stat { border-top: 1px solid var(--line); }
@@ -324,7 +327,7 @@
           <circle class="tip" data-k="20" style="--i:8" cx="240" cy="142" r="6"/>
         </g>
       </svg>
-      <figcaption>A hand as 21 keypoints, the input my research model reads, signing UTEP’s Picks Up. Click it to replay.</figcaption>
+      <figcaption>A hand as 21 keypoints, the input my research model reads, signing UTEP’s Picks Up.</figcaption>
     </figure>
   </div>
 
@@ -444,10 +447,13 @@
     <h2 id="community-h">Leadership and service</h2>
     <div class="body">
       <div class="pairs">
-        <article class="card wide">
-          <h3>Juntos por la Juventud: 3rd place, state level</h3>
-          <p class="meta">State Government of Chihuahua · Team member, Instituto Tesla · Sep – Nov 2023</p>
-          <p>Planned, presented, and carried out a social-impact community project with my team as part of a state-level youth leadership competition, earning third place in Chihuahua for project impact.</p>
+        <article class="card wide with-photo landscape">
+          <img src="img/service-juntos.jpg" alt="Group photo of Juntos por la Juventud participants in front of a church" width="877" height="615" loading="lazy">
+          <div>
+            <h3>Juntos por la Juventud: 3rd place, state level</h3>
+            <p class="meta">State Government of Chihuahua · Team member, Instituto Tesla · Sep – Nov 2023</p>
+            <p>Planned, presented, and carried out a social-impact community project with my team as part of a state-level youth leadership competition, earning third place in Chihuahua for project impact.</p>
+          </div>
         </article>
         <article class="card wide with-photo">
           <img src="img/service-1.jpg" alt="Ian sorting potatoes into crates at a food distribution" width="593" height="904" loading="lazy">
@@ -457,15 +463,18 @@
             <p>Supported hunger-relief efforts for individuals and families facing food insecurity, sorting and packing fresh produce for food distribution.</p>
           </div>
         </article>
-        <article class="card">
+        <article class="card wide with-photo landscape">
+          <img src="img/service-parroquia.jpg" alt="Ian during Mass at Parroquia María Madre de la Iglesia" width="1280" height="720" loading="lazy">
+          <div>
+            <h3>Parroquia María Madre de la Iglesia</h3>
+            <p class="meta">Ciudad Juárez, Chih. · Nov 2025 – May 2026</p>
+            <p>Took part in donation drives and visits to under-resourced schools to support local families and students.</p>
+          </div>
+        </article>
+        <article class="card wide">
           <h3>Jardín Botánico</h3>
           <p class="meta">Ciudad Juárez, Chih. · Aug 2025</p>
           <p>Helped care for Parque El Chamizal and supported nursery operations.</p>
-        </article>
-        <article class="card">
-          <h3>Parroquia María Madre de la Iglesia</h3>
-          <p class="meta">Ciudad Juárez, Chih. · Nov 2025 – May 2026</p>
-          <p>Took part in donation drives and visits to under-resourced schools to support local families and students.</p>
         </article>
       </div>
     </div>
@@ -650,13 +659,17 @@
       }
       anim = requestAnimationFrame(step);
     }
-    if (reduce) { state = 1; draw(1); }
-    else { setTimeout(function () { go(1, 1100); }, 2300); }
-    svg.addEventListener('click', function () {
-      if (reduce) return;
-      go(0, 600);
-      setTimeout(function () { go(1, 1100); }, 900);
-    });
+    if (reduce) { state = 1; draw(1); return; }
+    // Loop: open hand -> Picks Up -> hold -> open hand -> hold -> repeat
+    var timer = null;
+    function cycle() {
+      go(1, 1100);
+      timer = setTimeout(function () {
+        go(0, 900);
+        timer = setTimeout(cycle, 900 + 1600);
+      }, 1100 + 2400);
+    }
+    timer = setTimeout(cycle, 2300);
   })();
 
   document.getElementById('year').textContent = new Date().getFullYear();
