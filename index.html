@@ -162,9 +162,11 @@
   .tags li { font-size: 13px; padding: 4px 12px; border-radius: 999px; background: var(--accent-soft); color: var(--ink); }
 
   /* Skills */
-  .skills { margin: 0; display: grid; grid-template-columns: 180px 1fr; row-gap: 18px; column-gap: 24px; }
+  .skills { margin: 0; display: grid; grid-template-columns: 230px 1fr; row-gap: 18px; column-gap: 24px; }
   .skills dt { font-weight: 600; font-size: 15px; padding-top: 2px; }
-  .skills dd { margin: 0; color: var(--muted); }
+  .skills dd { margin: 0; }
+  .skills dt { display: flex; gap: 10px; align-items: baseline; }
+  .skill-emoji { font-size: 18px; flex: none; }
   .skills dd span { color: var(--ink); }
 
   /* Cards (community, interests) */
@@ -429,16 +431,14 @@
     <h2 id="skills-h">Skills</h2>
     <div class="body">
       <dl class="skills">
-        <dt>Languages</dt>
-        <dd><span>Python, Java, JavaScript</span>, HTML, CSS</dd>
-        <dt>Machine learning</dt>
-        <dd><span>PyTorch, transfer learning</span>, graph attention networks, recurrent networks (GRU), ONNX Runtime</dd>
-        <dt>Backend</dt>
-        <dd><span>Spring Boot, REST APIs</span>, Spring Data JPA, H2</dd>
-        <dt>Tools</dt>
-        <dd><span>Git and GitHub</span>, GitHub Codespaces, Google Colab, Microsoft Office</dd>
-        <dt>Strengths</dt>
-        <dd>Mathematical reasoning, problem solving, teaching and communication, teamwork</dd>
+        <dt><span class="skill-emoji" aria-hidden="true">🌐</span>Web development</dt>
+        <dd>HTML, CSS, JavaScript, mobile-friendly layouts, REST APIs, Spring Boot</dd>
+        <dt><span class="skill-emoji" aria-hidden="true">🧠</span>Programming and machine learning</dt>
+        <dd>Java, Python, PyTorch, transfer learning, ONNX Runtime, Spring Data JPA</dd>
+        <dt><span class="skill-emoji" aria-hidden="true">🛠️</span>Tools</dt>
+        <dd>Git and GitHub, GitHub Codespaces, GitHub Pages, Render, Google Colab, Microsoft Office Suite (Word, Excel, PowerPoint)</dd>
+        <dt><span class="skill-emoji" aria-hidden="true">💡</span>Interests and strengths</dt>
+        <dd>Accessibility, responsive design, UI/UX, problem solving, teaching and communication, teamwork</dd>
       </dl>
     </div>
   </section>
