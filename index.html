@@ -18,6 +18,11 @@
     --accent: #0E7A5C;
     --accent-ink: #FFFFFF;
     --accent-soft: #E3F1EB;
+    --band: #0E3B2E;
+    --band-ink: #E6F2EC;
+    --band-muted: #A9C9BA;
+    --band-accent: #7FE0B5;
+    --sage: #ECEFE4;
     --serif: "Newsreader", Georgia, serif;
     --sans: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
     --wrap: 1080px;
@@ -31,6 +36,11 @@
     --accent: #5CCB9E;
     --accent-ink: #0F1714;
     --accent-soft: #183429;
+    --band: #123328;
+    --band-ink: #E6F2EC;
+    --band-muted: #9DBDAF;
+    --band-accent: #7FE0B5;
+    --sage: #1A221D;
   }
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; scroll-padding-top: 84px; }
@@ -44,6 +54,7 @@
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     transition: background-color .3s, color .3s;
+    overflow-x: clip;
   }
   a { color: inherit; }
   :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
@@ -189,6 +200,102 @@
   .card.with-photo.landscape img { aspect-ratio: 4 / 3; }
   .emoji { font-size: 26px; line-height: 1; display: block; margin-bottom: 12px; }
 
+
+  /* Hand gesture label */
+  .gesture { display: flex; justify-content: center; margin: 14px 0 0; min-height: 34px; }
+  .gesture span { font-size: 14px; font-weight: 600; padding: 6px 14px; border-radius: 999px; background: var(--accent-soft); color: var(--ink); transition: opacity .25s, transform .25s; }
+  .gesture span.off { opacity: 0; transform: translateY(4px); }
+
+  /* Research band */
+  .band { position: relative; isolation: isolate; color: var(--band-ink); padding: 88px 0 92px; }
+  .band::before { content: ""; position: absolute; inset: 0 calc(50% - 50vw); background: var(--band); z-index: -1; }
+  .band-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 28px; }
+  .band h2 { font-family: var(--serif); font-weight: 400; font-size: 34px; margin: 0; letter-spacing: -.015em; }
+  .band .venue { font-size: 15px; color: var(--band-accent); margin: 0; font-weight: 500; }
+  .band-title { font-family: var(--serif); font-weight: 400; font-size: clamp(30px, 4.2vw, 50px); line-height: 1.08; letter-spacing: -.02em; margin: 0 0 18px; max-width: 22ch; }
+  .band .authors { font-size: 15px; color: var(--band-muted); margin: 0 0 48px; max-width: 70ch; }
+  .band .authors b { color: var(--band-ink); font-weight: 600; }
+  .band-grid { display: grid; grid-template-columns: 1fr 1.35fr 1fr; gap: 40px; align-items: end; padding: 36px 0; border-top: 1px solid rgba(255,255,255,.14); border-bottom: 1px solid rgba(255,255,255,.14); }
+  .big .n { font-family: var(--serif); font-size: clamp(52px, 6vw, 76px); line-height: .95; letter-spacing: -.03em; display: block; }
+  .big .l, .race .l { font-size: 15px; color: var(--band-muted); display: block; margin-top: 10px; line-height: 1.45; }
+  .race-row { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; align-items: center; margin-bottom: 16px; }
+  .race-row .who { font-size: 14px; grid-column: 1 / -1; }
+  .race-track { height: 14px; border-radius: 999px; background: rgba(255,255,255,.08); overflow: hidden; }
+  .race-fill { height: 100%; border-radius: 999px; background: var(--band-muted); width: 0; transition: width 1.6s cubic-bezier(.2,.7,.2,1); }
+  .race-row.ours .race-fill { background: var(--band-accent); min-width: 10px; }
+  .race-row .t { font-family: var(--serif); font-size: 26px; line-height: 1; }
+  .race-row.ours .t { color: var(--band-accent); }
+  .band .summary { font-size: 18px; max-width: 60ch; margin: 32px 0 22px; }
+  .band .link { color: var(--band-accent); }
+  @media (prefers-reduced-motion: reduce) { .race-fill { transition: none; } }
+
+  /* Experience timeline line */
+  .timeline > li { position: relative; gap: 48px; }
+  .timeline > li::before { content: ""; position: absolute; left: 174px; top: 12px; bottom: -4px; width: 1.5px; background: var(--line); }
+  .timeline > li:last-child::before { display: none; }
+  .timeline > li::after { content: ""; position: absolute; left: 168px; top: 6px; width: 14px; height: 14px; border-radius: 50%; background: var(--bg); border: 2.5px solid var(--accent); box-sizing: border-box; }
+  .timeline > li:first-child::after { background: var(--accent); }
+
+  /* BacheAlert demo */
+  .demo { margin: 22px 0 8px; border: 1px solid var(--line); border-radius: 18px; background: var(--surface); padding: 22px; }
+  .demo-pick { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 20px; }
+  .demo-pick button { font: 500 14px var(--sans); color: var(--ink); background: transparent; border: 1px solid var(--line); border-radius: 999px; padding: 8px 14px; cursor: pointer; }
+  .demo-pick button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+  .demo-flow { display: grid; grid-template-columns: 150px 28px 1fr 28px 1.1fr; align-items: center; gap: 8px; }
+  .demo-photo { width: 150px; aspect-ratio: 4 / 3; border-radius: 10px; overflow: hidden; position: relative; }
+  .demo-photo svg { width: 100%; height: 100%; display: block; }
+  .demo-photo .scan { position: absolute; left: 0; right: 0; height: 2px; background: var(--band-accent); box-shadow: 0 0 12px var(--band-accent); top: 0; opacity: 0; }
+  .demo.scanning .scan { animation: scan .8s ease-in-out 1; opacity: 1; }
+  @keyframes scan { from { top: 0; } to { top: 100%; } }
+  .demo-arrow { color: var(--muted); text-align: center; font-size: 18px; }
+  .demo-model { border: 1px dashed var(--accent); border-radius: 12px; padding: 12px 14px; text-align: center; }
+  .demo-model b { display: block; font-size: 15px; }
+  .demo-model small { color: var(--muted); font-size: 13px; }
+  .demo.scanning .demo-model { background: var(--accent-soft); }
+  .demo-result { border-radius: 12px; padding: 12px 14px; font-size: 15px; line-height: 1.35; background: var(--bg); border: 1px solid var(--line); transition: background-color .3s, border-color .3s; }
+  .demo-result b { display: block; }
+  .demo-result small { color: var(--muted); font-size: 13px; }
+  .demo-result.ok { background: var(--accent-soft); border-color: var(--accent); }
+  .demo-result.no { background: color-mix(in srgb, #C2523C 12%, var(--surface)); border-color: #C2523C; }
+  .demo-note { font-size: 13px; color: var(--muted); margin: 16px 0 0; }
+
+  .mini-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 18px 0 4px; }
+  .mini-stats div { background: var(--sage); border-radius: 14px; padding: 16px 18px; font-size: 15px; color: var(--muted); }
+  .mini-stats b { display: block; font-family: var(--serif); font-weight: 400; font-size: 40px; line-height: 1; color: var(--ink); margin-bottom: 6px; }
+
+  /* Skills tiles */
+  .skill-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .skill-tile { border: 1px solid var(--line); border-radius: 16px; padding: 22px; background: var(--surface); }
+  .skill-tile .skill-emoji { font-size: 28px; display: block; margin-bottom: 10px; }
+  .skill-tile h3 { font-size: 17px; font-weight: 600; margin: 0 0 14px; }
+  .chips { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+  .chips li { font-size: 13.5px; padding: 5px 11px; border-radius: 999px; background: var(--accent-soft); }
+
+  /* Interests bento */
+  .bento { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .tile { border-radius: 18px; padding: 24px; position: relative; overflow: hidden; }
+  .tile h3 { font-size: 18px; font-weight: 600; margin: 0 0 8px; }
+  .tile p { margin: 0; font-size: 16px; }
+  .tile .emoji { font-size: 30px; }
+  .t-ai { grid-column: span 2; background: var(--band); color: var(--band-ink); display: flex; flex-direction: column; justify-content: flex-end; min-height: 260px; }
+  .t-ai p { color: var(--band-muted); max-width: 46ch; }
+  .t-ai .net { position: absolute; right: 24px; top: 24px; width: 160px; opacity: .9; }
+  .t-ai .net line { stroke: var(--band-accent); stroke-width: 1.2; opacity: .45; }
+  .t-ai .net circle { fill: var(--band-accent); }
+  .t-gym { background: var(--accent-soft); }
+  .t-gym .huge { font-family: var(--serif); font-size: 84px; line-height: .85; display: block; letter-spacing: -.04em; }
+  .t-gym .unit { font-size: 15px; font-weight: 600; display: block; margin: 6px 0 14px; }
+  .week { display: flex; gap: 6px; margin: 0 0 14px; padding: 0; list-style: none; }
+  .week li { width: 22px; height: 22px; border-radius: 6px; background: var(--accent); }
+  .week li.rest { background: transparent; border: 1.5px dashed var(--muted); opacity: .6; }
+  .t-cs { background: var(--surface); border: 1px solid var(--line); }
+  .snippet { font: 14px/1.55 ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace; background: var(--bg); border-radius: 10px; padding: 12px 14px; margin: 0 0 14px; white-space: pre; overflow-x: auto; }
+  .snippet .k { color: var(--accent); font-weight: 600; }
+  .t-hist { grid-column: span 2; background: var(--sage); display: flex; flex-direction: column; justify-content: center; }
+  .t-hist .line { font-family: var(--serif); font-size: clamp(26px, 3vw, 34px); line-height: 1.1; letter-spacing: -.015em; margin: 6px 0 12px; max-width: 20ch; }
+  .era { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--muted); margin: 0 0 14px; }
+  .era i { flex: 1; height: 1.5px; background: linear-gradient(90deg, var(--muted), var(--accent)); }
+
   /* Contact */
   form { display: grid; gap: 14px; margin: 28px 0 0; }
   .row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
@@ -210,6 +317,9 @@
   @media (max-width: 900px) {
     .hero { grid-template-columns: 1fr; padding: 56px 0 64px; gap: 40px; }
     .hand { max-width: 260px; }
+    .band-grid { grid-template-columns: 1fr; gap: 28px; }
+    .bento { grid-template-columns: 1fr 1fr; }
+    .t-ai, .t-hist { grid-column: span 2; }
     section.block { grid-template-columns: 1fr; gap: 24px; padding: 56px 0; }
     section.block > h2 { position: static; }
     nav ul { justify-content: flex-start; }
@@ -219,7 +329,15 @@
     .wrap { padding: 0 20px; }
     .bar { gap: 14px; }
     .mark { font-size: 19px; }
-    .timeline > li { grid-template-columns: 1fr; gap: 4px; }
+    .timeline > li { grid-template-columns: 1fr; gap: 4px; padding-left: 26px; }
+    .timeline > li::before { left: 6px; top: 14px; }
+    .timeline > li::after { left: 0; top: 4px; }
+    .demo-flow { grid-template-columns: 1fr; }
+    .demo-photo { width: 100%; max-width: 240px; }
+    .demo-arrow { transform: rotate(90deg); width: 24px; }
+    .skill-grid, .mini-stats, .bento { grid-template-columns: 1fr; }
+    .t-ai, .t-hist { grid-column: auto; }
+    .t-ai .net { display: none; }
     .skills { grid-template-columns: 1fr; row-gap: 4px; }
     .skills dd { margin-bottom: 14px; }
     .pairs, .row, .photos { grid-template-columns: 1fr; }
@@ -274,7 +392,7 @@
 
     <figure class="figure">
       <svg class="hand" id="hand" viewBox="20 60 260 290" role="img" aria-labelledby="hand-title">
-        <title id="hand-title">A hand drawn as a graph of 21 connected keypoints, moving into the UTEP Picks Up sign</title>
+        <title id="hand-title">A hand drawn as a graph of 21 connected keypoints that waves, gives a thumbs up, and signs the UTEP Picks Up</title>
         <g>
           <line class="attn" data-a="4" data-b="8" style="--o:0.55" x1="55" y1="200" x2="103" y2="98"/>
           <line class="attn" data-a="8" data-b="12" style="--o:0.35" x1="103" y1="98" x2="150" y2="82"/>
@@ -329,7 +447,8 @@
           <circle class="tip" data-k="20" style="--i:8" cx="240" cy="142" r="6"/>
         </g>
       </svg>
-      <figcaption>A hand as 21 keypoints, the input my research model reads, signing UTEP’s Picks Up.</figcaption>
+      <p class="gesture" aria-hidden="true"><span id="gesture" class="off">Hi!</span></p>
+      <figcaption>A hand as 21 keypoints, the same input my sign language model reads.</figcaption>
     </figure>
   </div>
 
@@ -346,22 +465,24 @@
     </div>
   </section>
 
-  <section class="block" id="research" aria-labelledby="research-h">
-    <h2 id="research-h">Research</h2>
-    <div class="body">
-      <article class="paper">
-        <p class="venue">arXiv preprint · November 2025</p>
-        <h3>Sign Language Recognition from Skeletal Data Using Graph and Recurrent Neural Networks</h3>
-        <p class="authors">B. Mederos, J. Mejía, A. Medina-Reyes, Y. Espinoza-Almeyda, J. D. Díaz-Román, <b>I. Rodríguez-Mederos</b>, M. Mejía-Carreón, F. González-López</p>
-        <p>A hybrid model that combines graph attention networks (GAT) with GRU recurrent networks to classify isolated signs from skeleton keypoints rather than raw video.</p>
-        <div class="stats">
-          <div class="stat"><span class="n">90.04%</span><span class="l">accuracy on the AUTSL benchmark</span></div>
-          <div class="stat"><span class="n">~1 h</span><span class="l">to train, against 43.8 h for a video-based ResNet(2+1)D</span></div>
-          <div class="stat"><span class="n">36,000+</span><span class="l">videos of 226 signs from 43 signers</span></div>
-        </div>
-        <a class="link" href="https://arxiv.org/abs/2511.05772" target="_blank" rel="noopener">Read the paper on arXiv</a>
-      </article>
+  <section class="band" id="research" aria-labelledby="research-h">
+    <div class="band-head">
+      <h2 id="research-h">Research</h2>
+      <p class="venue">arXiv preprint · November 2025</p>
     </div>
+    <h3 class="band-title">Sign Language Recognition from Skeletal Data Using Graph and Recurrent Neural Networks</h3>
+    <p class="authors">B. Mederos, J. Mejía, A. Medina-Reyes, Y. Espinoza-Almeyda, J. D. Díaz-Román, <b>I. Rodríguez-Mederos</b>, M. Mejía-Carreón, F. González-López</p>
+    <div class="band-grid" id="band-grid">
+      <div class="big"><span class="n"><span class="count" data-to="90.04" data-dec="2">90.04</span>%</span><span class="l">accuracy on the AUTSL benchmark</span></div>
+      <div class="race" role="img" aria-label="Training time: about 1 hour for our skeleton model against 43.8 hours for a video-based ResNet(2+1)D">
+        <div class="race-row ours"><span class="who">Our GAT + GRU model, skeleton keypoints</span><div class="race-track"><div class="race-fill" data-w="2.3"></div></div><span class="t">~1 h</span></div>
+        <div class="race-row"><span class="who">ResNet(2+1)D, raw video</span><div class="race-track"><div class="race-fill" data-w="100"></div></div><span class="t">43.8 h</span></div>
+        <span class="l">Training time on the same benchmark</span>
+      </div>
+      <div class="big"><span class="n"><span class="count" data-to="36000" data-dec="0">36,000</span>+</span><span class="l">videos of 226 signs from 43 signers</span></div>
+    </div>
+    <p class="summary">A hybrid model that combines graph attention networks (GAT) with GRU recurrent networks to classify isolated signs from skeleton keypoints rather than raw video.</p>
+    <a class="link" href="https://arxiv.org/abs/2511.05772" target="_blank" rel="noopener">Read the paper on arXiv</a>
   </section>
 
   <section class="block" id="experience" aria-labelledby="experience-h">
@@ -403,9 +524,27 @@
           <span class="meta">Fall 2026 · El Paso, TX</span>
         </header>
         <p class="sub">Pothole reporting web app with ML filtering. Personal project, mentored through Google Developer Student Club at UTEP.</p>
-        <p>Citizens report potholes by uploading a photo. A transfer-learning classifier (MobileNetV2 in PyTorch), trained on about 680 images, reaches 95% test accuracy and rejects photos without potholes before they're stored. I exported the model to ONNX and ran it natively in Java with ONNX Runtime, behind a REST API for upload, validation, and persistence, with a vanilla HTML, CSS, and JavaScript frontend.</p>
+        <p>Citizens report potholes by uploading a photo. A transfer-learning classifier (MobileNetV2 in PyTorch), trained on about 680 images, reaches 95% test accuracy and rejects photos without potholes before they're stored. I exported the model to ONNX and ran it natively in Java with ONNX Runtime, behind a REST API for upload, validation, and persistence, with a vanilla HTML, CSS, and JavaScript frontend, and deployed it on Render.</p>
+        <div class="demo" id="demo">
+          <div class="demo-pick" role="group" aria-label="Choose a sample photo">
+            <button type="button" data-kind="pothole" aria-pressed="true">Photo of a pothole</button>
+            <button type="button" data-kind="other" aria-pressed="false">Photo of something else</button>
+          </div>
+          <div class="demo-flow">
+            <div class="demo-photo">
+              <svg id="demo-pothole" viewBox="0 0 160 120" aria-label="Sample photo: a road with a pothole" role="img"><rect width="160" height="120" fill="#8C918D"/><rect y="0" width="160" height="26" fill="#B9C7CF"/><path d="M0 26h160v94H0z" fill="#7A7F7B"/><path d="M76 34h8v14h-8zM75 62h10v18h-10zM74 96h12v24h-12z" fill="#E9D47A"/><ellipse cx="46" cy="86" rx="28" ry="12" fill="#3B3F3C"/><ellipse cx="46" cy="83" rx="22" ry="8" fill="#2A2D2B"/><path d="M20 88q8 6 20 4M58 78q10 2 14 8" stroke="#5E625F" stroke-width="2" fill="none"/></svg>
+              <svg id="demo-other" viewBox="0 0 160 120" aria-label="Sample photo: a park with a tree" role="img" hidden><rect width="160" height="120" fill="#BFD9EA"/><circle cx="128" cy="26" r="12" fill="#F4D35E"/><path d="M0 82q40-14 80 0t80 0v38H0z" fill="#7DB46C"/><rect x="50" y="56" width="8" height="34" fill="#7A5A3C"/><circle cx="54" cy="48" r="20" fill="#4F8F47"/><circle cx="40" cy="58" r="12" fill="#4F8F47"/><circle cx="68" cy="58" r="12" fill="#4F8F47"/></svg>
+              <span class="scan"></span>
+            </div>
+            <span class="demo-arrow" aria-hidden="true">→</span>
+            <div class="demo-model"><b>MobileNetV2</b><small>ONNX Runtime, inside the Java API</small></div>
+            <span class="demo-arrow" aria-hidden="true">→</span>
+            <div class="demo-result" id="demo-result" aria-live="polite"><b>Waiting for a photo</b><small>Pick a sample above</small></div>
+          </div>
+          <p class="demo-note">An illustration of how BacheAlert filters reports. Try the real app with your own photo below.</p>
+        </div>
         <ul class="tags">
-          <li>Java</li><li>Spring Boot</li><li>PyTorch</li><li>MobileNetV2</li><li>ONNX Runtime</li><li>Spring Data JPA</li><li>H2</li><li>JavaScript</li>
+          <li>Java</li><li>Spring Boot</li><li>PyTorch</li><li>MobileNetV2</li><li>ONNX Runtime</li><li>Spring Data JPA</li><li>H2</li><li>HTML</li><li>CSS</li><li>JavaScript</li><li>Render</li>
         </ul>
         <div class="actions">
           <a class="link" href="https://bachealert.onrender.com/" target="_blank" rel="noopener">Try the live app</a>
@@ -419,7 +558,11 @@
           <span class="meta">Fall 2024 · Ciudad Juárez, Chih.</span>
         </header>
         <p class="sub">AI outfit recommendation app. School team project at Instituto Iberoamericano San Patricio.</p>
-        <p>A mobile app that suggests outfit combinations from each user's own wardrobe, planned with FlutterFlow and the ChatGPT API, with a $5/month brand-advertising revenue model. I worked on problem formulation, market research, and system planning. 93% of surveyed students showed interest, and the project's Instagram reached 939 accounts in its first week.</p>
+        <p>A mobile app that suggests outfit combinations from each user's own wardrobe, planned with FlutterFlow and the ChatGPT API, with a $5/month brand-advertising revenue model. I worked on problem formulation, market research, and system planning.</p>
+        <div class="mini-stats">
+          <div><b>93%</b>of surveyed students showed interest</div>
+          <div><b>939</b>accounts reached on Instagram in the first week</div>
+        </div>
         <ul class="tags">
           <li>FlutterFlow</li><li>ChatGPT API</li><li>Market research</li><li>Product planning</li>
         </ul>
@@ -430,16 +573,16 @@
   <section class="block" id="skills" aria-labelledby="skills-h">
     <h2 id="skills-h">Skills</h2>
     <div class="body">
-      <dl class="skills">
-        <dt><span class="skill-emoji" aria-hidden="true">🌐</span>Web development</dt>
-        <dd>HTML, CSS, JavaScript, mobile-friendly layouts, REST APIs, Spring Boot</dd>
-        <dt><span class="skill-emoji" aria-hidden="true">🧠</span>Programming and machine learning</dt>
-        <dd>Java, Python, PyTorch, transfer learning, ONNX Runtime, Spring Data JPA</dd>
-        <dt><span class="skill-emoji" aria-hidden="true">🛠️</span>Tools</dt>
-        <dd>Git and GitHub, GitHub Codespaces, GitHub Pages, Render, Google Colab, Microsoft Office Suite (Word, Excel, PowerPoint)</dd>
-        <dt><span class="skill-emoji" aria-hidden="true">💡</span>Interests and strengths</dt>
-        <dd>Accessibility, responsive design, UI/UX, problem solving, teaching and communication, teamwork</dd>
-      </dl>
+      <div class="skill-grid">
+        <div class="skill-tile"><span class="skill-emoji" aria-hidden="true">🌐</span><h3>Web development</h3>
+          <ul class="chips"><li>HTML</li><li>CSS</li><li>JavaScript</li><li>Mobile-friendly layouts</li><li>REST APIs</li><li>Spring Boot</li></ul></div>
+        <div class="skill-tile"><span class="skill-emoji" aria-hidden="true">🧠</span><h3>Programming and machine learning</h3>
+          <ul class="chips"><li>Java</li><li>Python</li><li>PyTorch</li><li>Transfer learning</li><li>ONNX Runtime</li><li>Spring Data JPA</li></ul></div>
+        <div class="skill-tile"><span class="skill-emoji" aria-hidden="true">🛠️</span><h3>Tools</h3>
+          <ul class="chips"><li>Git and GitHub</li><li>GitHub Codespaces</li><li>GitHub Pages</li><li>Render</li><li>Google Colab</li><li>Microsoft Office Suite</li></ul></div>
+        <div class="skill-tile"><span class="skill-emoji" aria-hidden="true">💡</span><h3>Interests and strengths</h3>
+          <ul class="chips"><li>Accessibility</li><li>Responsive design</li><li>UI/UX</li><li>Problem solving</li><li>Teaching and communication</li><li>Teamwork</li></ul></div>
+      </div>
     </div>
   </section>
 
@@ -500,25 +643,32 @@
   <section class="block" id="interests" aria-labelledby="interests-h">
     <h2 id="interests-h">Interests</h2>
     <div class="body">
-      <div class="pairs">
-        <article class="card">
+      <div class="bento">
+        <article class="tile t-ai">
+          <svg class="net" viewBox="0 0 120 80" aria-hidden="true"><line x1="10" y1="15" x2="60" y2="10"/><line x1="10" y1="15" x2="60" y2="40"/><line x1="10" y1="40" x2="60" y2="10"/><line x1="10" y1="40" x2="60" y2="70"/><line x1="10" y1="65" x2="60" y2="40"/><line x1="10" y1="65" x2="60" y2="70"/><line x1="60" y1="10" x2="110" y2="40"/><line x1="60" y1="40" x2="110" y2="40"/><line x1="60" y1="70" x2="110" y2="40"/><circle cx="10" cy="15" r="4"/><circle cx="10" cy="40" r="4"/><circle cx="10" cy="65" r="4"/><circle cx="60" cy="10" r="4"/><circle cx="60" cy="40" r="4"/><circle cx="60" cy="70" r="4"/><circle cx="110" cy="40" r="5"/></svg>
           <span class="emoji" aria-hidden="true">🤖</span>
           <h3>Artificial intelligence</h3>
           <p>Neural networks, how they learn, and what they can do for people. Sign language recognition got me started; I want to keep exploring the field.</p>
         </article>
-        <article class="card">
+        <article class="tile t-gym">
+          <span class="huge">5</span><span class="unit">days a week at the gym</span>
+          <ul class="week" aria-label="Five training days out of seven"><li></li><li></li><li></li><li></li><li></li><li class="rest"></li><li class="rest"></li></ul>
+          <p>It keeps me disciplined and clears my head before a long study session.</p>
+        </article>
+        <article class="tile t-cs">
           <span class="emoji" aria-hidden="true">💻</span>
           <h3>Computer science</h3>
-          <p>Algorithms, data structures, and the math behind them. I enjoy understanding why things work, not just making them run.</p>
+<pre class="snippet"><span class="k">while</span> (curious) {
+  learn();
+  build();
+}</pre>
+          <p>Algorithms, data structures, and the math behind them. I like understanding why things work, not just making them run.</p>
         </article>
-        <article class="card">
-          <span class="emoji" aria-hidden="true">🏋️</span>
-          <h3>Training</h3>
-          <p>I'm at the gym five days a week. It keeps me disciplined and clears my head before a long study session.</p>
-        </article>
-        <article class="card">
+        <article class="tile t-hist">
           <span class="emoji" aria-hidden="true">📜</span>
           <h3>History and philosophy</h3>
+          <p class="line">Old questions, new tools.</p>
+          <p class="era" aria-hidden="true"><span>Ancient philosophy</span><i></i><span>Modern AI</span></p>
           <p>I'm passionate about history and I read philosophy in my free time. Both are good practice for thinking clearly about hard questions.</p>
         </article>
       </div>
@@ -587,7 +737,7 @@
         }
       });
     }, { rootMargin: '-40% 0px -55% 0px' });
-    document.querySelectorAll('section.block').forEach(function (s) { io.observe(s); });
+    document.querySelectorAll('main section[id]').forEach(function (s) { io.observe(s); });
   }
 
   // Contact form sends through FormSubmit (no backend needed)
@@ -626,50 +776,149 @@
   });
 
 
-  // Hand: open hand morphs into the UTEP "Picks Up" sign (thumb and pinky out)
+  // Hand: waves, gives a thumbs up, then signs UTEP's "Picks Up" (thumb and pinky out), in a loop
   (function () {
     var svg = document.getElementById('hand');
     if (!svg) return;
+    var label = document.getElementById('gesture');
     var OPEN = [[150,330],[110,300],[85,265],[68,232],[55,200],[118,210],[110,160],[106,128],[103,98],[150,205],[150,150],[150,115],[150,82],[180,212],[188,162],[193,130],[197,102],[205,228],[222,190],[232,165],[240,142]];
+    var THUMBS = [[150,330],[124,292],[116,246],[112,198],[110,150],[134,244],[138,226],[146,240],[146,258],[160,240],[164,222],[171,238],[171,256],[184,246],[188,230],[194,245],[193,262],[204,258],[208,244],[213,258],[211,272]];
     var PICKS = [[150,330],[112,302],[84,276],[60,252],[38,230],[118,210],[114,184],[121,205],[127,224],[150,205],[150,180],[152,203],[153,223],[180,212],[183,186],[183,207],[181,225],[205,228],[228,196],[245,171],[260,146]];
-    var ATTN_OPEN = { '4-8': .55, '8-12': .35, '12-16': .5, '16-20': .3, '4-20': .25 };
-    var ATTN_PICKS = { '4-8': 0, '8-12': 0, '12-16': 0, '16-20': 0, '4-20': .7 };
-    var joints = svg.querySelectorAll('circle'), lines = svg.querySelectorAll('line');
+    var ATTN = { open: [.55,.35,.5,.3,.25], thumbs: [0,0,0,0,0], picks: [0,0,0,0,.7] };
+    var joints = svg.querySelectorAll('circle');
+    var bones = svg.querySelectorAll('line.bone');
+    var attn = svg.querySelectorAll('line.attn');
+    var base = Array.prototype.map.call(attn, function (l) { return parseFloat(l.style.getPropertyValue('--o')) || .4; });
+    var cur = OPEN.map(function (p) { return p.slice(); }), curA = ATTN.open.slice();
     var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var state = 0, anim = null;
+
+    function render(P, A) {
+      joints.forEach(function (c) { var k = +c.getAttribute('data-k'); c.setAttribute('cx', P[k][0].toFixed(1)); c.setAttribute('cy', P[k][1].toFixed(1)); });
+      [bones, attn].forEach(function (set) {
+        set.forEach(function (l) {
+          var a = +l.getAttribute('data-a'), b = +l.getAttribute('data-b');
+          l.setAttribute('x1', P[a][0].toFixed(1)); l.setAttribute('y1', P[a][1].toFixed(1));
+          l.setAttribute('x2', P[b][0].toFixed(1)); l.setAttribute('y2', P[b][1].toFixed(1));
+        });
+      });
+      attn.forEach(function (l, i) { l.style.strokeOpacity = Math.max(0, A[i] / base[i]); });
+    }
+    function say(text) {
+      if (!text) { label.classList.add('off'); return; }
+      label.textContent = text; label.classList.remove('off');
+    }
     function ease(t) { return t < .5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3) / 2; }
-    function draw(t) {
-      var P = OPEN.map(function (p, i) { return [p[0] + (PICKS[i][0] - p[0]) * t, p[1] + (PICKS[i][1] - p[1]) * t]; });
-      joints.forEach(function (c) { var k = +c.getAttribute('data-k'); c.setAttribute('cx', P[k][0]); c.setAttribute('cy', P[k][1]); });
-      lines.forEach(function (l) {
-        var a = +l.getAttribute('data-a'), b = +l.getAttribute('data-b');
-        l.setAttribute('x1', P[a][0]); l.setAttribute('y1', P[a][1]); l.setAttribute('x2', P[b][0]); l.setAttribute('y2', P[b][1]);
-        if (l.classList.contains('attn')) { var key = a + '-' + b; l.style.strokeOpacity = (ATTN_OPEN[key] + (ATTN_PICKS[key] - ATTN_OPEN[key]) * t) / ATTN_OPEN[key]; }
+    function frames(ms, fn) {
+      return new Promise(function (done) {
+        var t0 = null;
+        function step(ts) {
+          if (t0 === null) t0 = ts;
+          var k = Math.min(1, (ts - t0) / ms);
+          fn(k);
+          if (k < 1) requestAnimationFrame(step); else done();
+        }
+        requestAnimationFrame(step);
       });
     }
-    function go(to, ms) {
-      if (anim) cancelAnimationFrame(anim);
-      var from = state, t0 = null;
-      function step(ts) {
-        if (t0 === null) t0 = ts;
-        var k = Math.min(1, (ts - t0) / ms);
-        state = from + (to - from) * ease(k);
-        draw(state);
-        if (k < 1) anim = requestAnimationFrame(step); else anim = null;
+    function sleep(ms) { return new Promise(function (r) { setTimeout(r, ms); }); }
+    function to(pose, attnTo, ms) {
+      var from = cur.map(function (p) { return p.slice(); }), fromA = curA.slice();
+      return frames(ms, function (k) {
+        var e = ease(k);
+        cur = from.map(function (p, i) { return [p[0] + (pose[i][0] - p[0]) * e, p[1] + (pose[i][1] - p[1]) * e]; });
+        curA = fromA.map(function (v, i) { return v + (attnTo[i] - v) * e; });
+        render(cur, curA);
+      });
+    }
+    function wave(ms) {
+      var cx = 150, cy = 330;
+      return frames(ms, function (k) {
+        var ang = Math.sin(k * Math.PI * 4) * 16 * Math.PI / 180;
+        var c = Math.cos(ang), sn = Math.sin(ang);
+        var P = cur.map(function (p) { var dx = p[0] - cx, dy = p[1] - cy; return [cx + dx * c - dy * sn, cy + dx * sn + dy * c]; });
+        render(P, curA);
+      });
+    }
+
+    if (reduce) { cur = PICKS; curA = ATTN.picks; render(cur, curA); say('Picks up, Miners!'); return; }
+
+    (async function loop() {
+      await sleep(2300);
+      while (true) {
+        say('Hi!');
+        await wave(1800);
+        say('Thumbs up');
+        await to(THUMBS, ATTN.thumbs, 900);
+        await sleep(1400);
+        await to(OPEN, ATTN.open, 700);
+        say('Picks up, Miners!');
+        await to(PICKS, ATTN.picks, 1000);
+        await sleep(2200);
+        say('');
+        await to(OPEN, ATTN.open, 800);
+        await sleep(900);
       }
-      anim = requestAnimationFrame(step);
+    })();
+  })();
+
+  // Research: count up numbers and grow the training-time bars once, when the band scrolls into view
+  (function () {
+    var grid = document.getElementById('band-grid');
+    if (!grid) return;
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    function fmt(v, dec) { return dec ? v.toFixed(dec) : Math.round(v).toLocaleString('en-US'); }
+    function run() {
+      grid.querySelectorAll('.race-fill').forEach(function (f) { f.style.width = f.getAttribute('data-w') + '%'; });
+      grid.querySelectorAll('.count').forEach(function (el) {
+        var end = parseFloat(el.getAttribute('data-to')), dec = +el.getAttribute('data-dec');
+        if (reduce) { el.textContent = fmt(end, dec); return; }
+        var t0 = null;
+        function step(ts) {
+          if (t0 === null) t0 = ts;
+          var k = Math.min(1, (ts - t0) / 1400), e = 1 - Math.pow(1 - k, 3);
+          el.textContent = fmt(end * e, dec);
+          if (k < 1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+        setTimeout(function () { el.textContent = fmt(end, dec); }, 1700);
+      });
     }
-    if (reduce) { state = 1; draw(1); return; }
-    // Loop: open hand -> Picks Up -> hold -> open hand -> hold -> repeat
+    if (!('IntersectionObserver' in window)) { run(); return; }
+    var io = new IntersectionObserver(function (es) { if (es[0].isIntersecting) { run(); io.disconnect(); } }, { threshold: .35 });
+    io.observe(grid);
+  })();
+
+  // BacheAlert demo: pick a sample photo and watch it go through the classifier
+  (function () {
+    var demo = document.getElementById('demo');
+    if (!demo) return;
+    var buttons = demo.querySelectorAll('.demo-pick button');
+    var result = document.getElementById('demo-result');
     var timer = null;
-    function cycle() {
-      go(1, 1100);
+    function play(kind) {
+      buttons.forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-kind') === kind ? 'true' : 'false'); });
+      document.getElementById('demo-pothole').hidden = kind !== 'pothole';
+      document.getElementById('demo-other').hidden = kind !== 'other';
+      result.className = 'demo-result';
+      result.innerHTML = '<b>Classifying…</b><small>Running the model on the photo</small>';
+      demo.classList.remove('scanning'); void demo.offsetWidth; demo.classList.add('scanning');
+      clearTimeout(timer);
       timer = setTimeout(function () {
-        go(0, 900);
-        timer = setTimeout(cycle, 900 + 1600);
-      }, 1100 + 2400);
+        demo.classList.remove('scanning');
+        if (kind === 'pothole') {
+          result.className = 'demo-result ok';
+          result.innerHTML = '<b>✓ Pothole detected</b><small>The report is saved with its photo</small>';
+        } else {
+          result.className = 'demo-result no';
+          result.innerHTML = '<b>✕ Not a pothole</b><small>The photo is rejected and never stored</small>';
+        }
+      }, 900);
     }
-    timer = setTimeout(cycle, 2300);
+    buttons.forEach(function (b) { b.addEventListener('click', function () { play(b.getAttribute('data-kind')); }); });
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (es) { if (es[0].isIntersecting) { play('pothole'); io.disconnect(); } }, { threshold: .5 });
+      io.observe(demo);
+    } else { play('pothole'); }
   })();
 
   document.getElementById('year').textContent = new Date().getFullYear();
