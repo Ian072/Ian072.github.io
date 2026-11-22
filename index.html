@@ -241,23 +241,33 @@
   .demo-pick { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 20px; }
   .demo-pick button { font: 500 14px var(--sans); color: var(--ink); background: transparent; border: 1px solid var(--line); border-radius: 999px; padding: 8px 14px; cursor: pointer; }
   .demo-pick button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
-  .demo-flow { display: grid; grid-template-columns: 150px 28px 1fr 28px 1.1fr; align-items: center; gap: 8px; }
-  .demo-photo { width: 150px; aspect-ratio: 4 / 3; border-radius: 10px; overflow: hidden; position: relative; }
-  .demo-photo svg { width: 100%; height: 100%; display: block; }
+  .demo-flow { display: grid; grid-template-columns: 220px 1fr; gap: 22px; align-items: start; }
+  .demo-photo { width: 100%; aspect-ratio: 5 / 3; border-radius: 12px; overflow: hidden; position: relative; background: var(--bg); }
+  .demo-photo img, .demo-photo svg { width: 100%; height: 100%; object-fit: cover; display: block; }
   .demo-photo .scan { position: absolute; left: 0; right: 0; height: 2px; background: var(--band-accent); box-shadow: 0 0 12px var(--band-accent); top: 0; opacity: 0; }
-  .demo.scanning .scan { animation: scan .8s ease-in-out 1; opacity: 1; }
-  @keyframes scan { from { top: 0; } to { top: 100%; } }
-  .demo-arrow { color: var(--muted); text-align: center; font-size: 18px; }
-  .demo-model { border: 1px dashed var(--accent); border-radius: 12px; padding: 12px 14px; text-align: center; }
-  .demo-model b { display: block; font-size: 15px; }
-  .demo-model small { color: var(--muted); font-size: 13px; }
-  .demo.scanning .demo-model { background: var(--accent-soft); }
-  .demo-result { border-radius: 12px; padding: 12px 14px; font-size: 15px; line-height: 1.35; background: var(--bg); border: 1px solid var(--line); transition: background-color .3s, border-color .3s; }
-  .demo-result b { display: block; }
-  .demo-result small { color: var(--muted); font-size: 13px; }
+  .demo.scanning .scan { animation: scan 1.6s ease-in-out 1; opacity: 1; }
+  @keyframes scan { 0% { top: 0; } 50% { top: 100%; } 100% { top: 0; } }
+  .demo-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+  .demo-steps li { display: grid; grid-template-columns: 22px 1fr; column-gap: 10px; font-size: 14px; line-height: 1.4; opacity: .45; transition: opacity .3s; }
+  .demo-steps li::before { content: ""; grid-row: span 2; width: 14px; height: 14px; margin-top: 3px; border-radius: 50%; border: 2px solid var(--muted); box-sizing: border-box; transition: background-color .3s, border-color .3s; }
+  .demo-steps li.on { opacity: 1; }
+  .demo-steps li.on::before { border-color: var(--accent); background: var(--accent); }
+  .demo-steps b { font-size: 14px; }
+  .demo-steps small { color: var(--muted); font-size: 13px; }
+  .demo-steps code { font: 12.5px ui-monospace, Menlo, Consolas, monospace; background: var(--accent-soft); padding: 1px 5px; border-radius: 4px; }
+  .demo-result { margin-top: 18px; border-radius: 12px; padding: 14px 16px; background: var(--bg); border: 1px solid var(--line); display: grid; grid-template-columns: 1fr 1fr; gap: 18px; align-items: center; transition: background-color .3s, border-color .3s; }
+  .demo-msg b { display: block; font-size: 15px; }
+  .demo-msg small { color: var(--muted); font-size: 13px; line-height: 1.4; display: block; margin-top: 2px; }
   .demo-result.ok { background: var(--accent-soft); border-color: var(--accent); }
-  .demo-result.no { background: color-mix(in srgb, #C2523C 12%, var(--surface)); border-color: #C2523C; }
-  .demo-note { font-size: 13px; color: var(--muted); margin: 16px 0 0; }
+  .demo-result.no { background: color-mix(in srgb, #C2523C 10%, var(--surface)); border-color: #C2523C; }
+  .meter-label { font-size: 12.5px; color: var(--muted); display: block; margin-bottom: 6px; }
+  .meter-track { position: relative; height: 10px; border-radius: 999px; background: var(--line); }
+  .meter-fill { height: 100%; width: 0; border-radius: 999px; background: var(--muted); transition: width .9s cubic-bezier(.2,.7,.2,1); }
+  .demo-result.ok .meter-fill { background: var(--accent); }
+  .demo-result.no .meter-fill { background: #C2523C; }
+  .meter-mark { position: absolute; left: 50%; top: -4px; bottom: -4px; width: 2px; background: var(--ink); opacity: .6; }
+  .meter-scale { display: flex; justify-content: space-between; font-size: 11.5px; color: var(--muted); margin-top: 4px; }
+  .demo-note { font-size: 13px; color: var(--muted); margin: 14px 0 0; }
 
   .mini-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 18px 0 4px; }
   .mini-stats div { background: var(--sage); border-radius: 14px; padding: 16px 18px; font-size: 15px; color: var(--muted); }
@@ -332,9 +342,7 @@
     .timeline > li { grid-template-columns: 1fr; gap: 4px; padding-left: 26px; }
     .timeline > li::before { left: 6px; top: 14px; }
     .timeline > li::after { left: 0; top: 4px; }
-    .demo-flow { grid-template-columns: 1fr; }
-    .demo-photo { width: 100%; max-width: 240px; }
-    .demo-arrow { transform: rotate(90deg); width: 24px; }
+    .demo-flow, .demo-result { grid-template-columns: 1fr; }
     .skill-grid, .mini-stats, .bento { grid-template-columns: 1fr; }
     .t-ai, .t-hist { grid-column: auto; }
     .t-ai .net { display: none; }
@@ -532,16 +540,22 @@
           </div>
           <div class="demo-flow">
             <div class="demo-photo">
-              <svg id="demo-pothole" viewBox="0 0 160 120" aria-label="Sample photo: a road with a pothole" role="img"><rect width="160" height="120" fill="#8C918D"/><rect y="0" width="160" height="26" fill="#B9C7CF"/><path d="M0 26h160v94H0z" fill="#7A7F7B"/><path d="M76 34h8v14h-8zM75 62h10v18h-10zM74 96h12v24h-12z" fill="#E9D47A"/><ellipse cx="46" cy="86" rx="28" ry="12" fill="#3B3F3C"/><ellipse cx="46" cy="83" rx="22" ry="8" fill="#2A2D2B"/><path d="M20 88q8 6 20 4M58 78q10 2 14 8" stroke="#5E625F" stroke-width="2" fill="none"/></svg>
+              <img id="demo-pothole" src="img/bache-sample.jpg" alt="Sample photo: a road with potholes" width="640" height="384">
               <svg id="demo-other" viewBox="0 0 160 120" aria-label="Sample photo: a park with a tree" role="img" hidden><rect width="160" height="120" fill="#BFD9EA"/><circle cx="128" cy="26" r="12" fill="#F4D35E"/><path d="M0 82q40-14 80 0t80 0v38H0z" fill="#7DB46C"/><rect x="50" y="56" width="8" height="34" fill="#7A5A3C"/><circle cx="54" cy="48" r="20" fill="#4F8F47"/><circle cx="40" cy="58" r="12" fill="#4F8F47"/><circle cx="68" cy="58" r="12" fill="#4F8F47"/></svg>
               <span class="scan"></span>
             </div>
-            <span class="demo-arrow" aria-hidden="true">→</span>
-            <div class="demo-model"><b>MobileNetV2</b><small>ONNX Runtime, inside the Java API</small></div>
-            <span class="demo-arrow" aria-hidden="true">→</span>
-            <div class="demo-result" id="demo-result" aria-live="polite"><b>Waiting for a photo</b><small>Pick a sample above</small></div>
+            <ol class="demo-steps">
+              <li data-step="0"><b>Upload</b><small>The browser sends the photo to <code>POST /api/clasificar</code></small></li>
+              <li data-step="1"><b>Preprocess</b><small>Resized to 224 × 224 and normalized like in training</small></li>
+              <li data-step="2"><b>Classify</b><small>MobileNetV2, exported to ONNX, runs inside the Java API</small></li>
+              <li data-step="3"><b>Decide</b><small>Softmax gives a pothole probability; above 50% counts as a pothole</small></li>
+            </ol>
           </div>
-          <p class="demo-note">An illustration of how BacheAlert filters reports. Try the real app with your own photo below.</p>
+          <div class="demo-result" id="demo-result" aria-live="polite">
+            <div class="demo-msg"><b>Pick a sample photo</b><small>Watch it go through the same steps as the real app</small></div>
+            <div class="meter" aria-hidden="true"><span class="meter-label">Pothole probability</span><div class="meter-track"><div class="meter-fill" id="meter-fill"></div><span class="meter-mark"></span></div><span class="meter-scale"><span>0%</span><span>50%</span><span>100%</span></span></div>
+          </div>
+          <p class="demo-note">An illustration of the app’s pipeline: the messages are the app’s own, but the bar is not a real prediction. Try the real app with your own photo below.</p>
         </div>
         <ul class="tags">
           <li>Java</li><li>Spring Boot</li><li>PyTorch</li><li>MobileNetV2</li><li>ONNX Runtime</li><li>Spring Data JPA</li><li>H2</li><li>HTML</li><li>CSS</li><li>JavaScript</li><li>Render</li>
@@ -888,31 +902,41 @@
     io.observe(grid);
   })();
 
-  // BacheAlert demo: pick a sample photo and watch it go through the classifier
+  // BacheAlert demo: walks a sample photo through the app's real pipeline (illustrative bar, real messages)
   (function () {
     var demo = document.getElementById('demo');
     if (!demo) return;
     var buttons = demo.querySelectorAll('.demo-pick button');
+    var steps = demo.querySelectorAll('.demo-steps li');
     var result = document.getElementById('demo-result');
-    var timer = null;
+    var msg = result.querySelector('.demo-msg');
+    var fill = document.getElementById('meter-fill');
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var timers = [];
+    function later(fn, ms) { timers.push(setTimeout(fn, reduce ? 0 : ms)); }
     function play(kind) {
+      timers.forEach(clearTimeout); timers = [];
       buttons.forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-kind') === kind ? 'true' : 'false'); });
       document.getElementById('demo-pothole').hidden = kind !== 'pothole';
       document.getElementById('demo-other').hidden = kind !== 'other';
+      steps.forEach(function (li) { li.classList.remove('on'); });
       result.className = 'demo-result';
-      result.innerHTML = '<b>Classifying…</b><small>Running the model on the photo</small>';
+      fill.style.width = '0';
+      msg.innerHTML = '<b>Classifying…</b><small>The photo is going through the model</small>';
       demo.classList.remove('scanning'); void demo.offsetWidth; demo.classList.add('scanning');
-      clearTimeout(timer);
-      timer = setTimeout(function () {
+      steps.forEach(function (li, i) { later(function () { li.classList.add('on'); }, 350 * (i + 1)); });
+      later(function () {
         demo.classList.remove('scanning');
         if (kind === 'pothole') {
           result.className = 'demo-result ok';
-          result.innerHTML = '<b>✓ Pothole detected</b><small>The report is saved with its photo</small>';
+          fill.style.width = '92%';
+          msg.innerHTML = '<b>Done! Your report has been saved</b><small>The photo, description, and location go into the database and the public list.</small>';
         } else {
           result.className = 'demo-result no';
-          result.innerHTML = '<b>✕ Not a pothole</b><small>The photo is rejected and never stored</small>';
+          fill.style.width = '10%';
+          msg.innerHTML = '<b>Hmm, this photo doesn’t look like a pothole</b><small>We didn’t save the report. Try a closer photo with good light where the whole pothole is visible.</small>';
         }
-      }, 900);
+      }, 350 * steps.length + 300);
     }
     buttons.forEach(function (b) { b.addEventListener('click', function () { play(b.getAttribute('data-kind')); }); });
     if ('IntersectionObserver' in window) {
