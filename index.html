@@ -537,12 +537,12 @@
         <div class="demo" id="demo">
           <div class="demo-pick" role="group" aria-label="Choose a sample photo">
             <button type="button" data-kind="pothole" aria-pressed="true">Photo of a pothole</button>
-            <button type="button" data-kind="other" aria-pressed="false">Photo of something else</button>
+            <button type="button" data-kind="other" aria-pressed="false">Photo of a road without potholes</button>
           </div>
           <div class="demo-flow">
             <div class="demo-photo">
               <img id="demo-pothole" src="img/bache-sample.jpg" alt="Sample photo: a road with potholes" width="640" height="384">
-              <svg id="demo-other" viewBox="0 0 160 120" aria-label="Sample photo: a park with a tree" role="img" hidden><rect width="160" height="120" fill="#BFD9EA"/><circle cx="128" cy="26" r="12" fill="#F4D35E"/><path d="M0 82q40-14 80 0t80 0v38H0z" fill="#7DB46C"/><rect x="50" y="56" width="8" height="34" fill="#7A5A3C"/><circle cx="54" cy="48" r="20" fill="#4F8F47"/><circle cx="40" cy="58" r="12" fill="#4F8F47"/><circle cx="68" cy="58" r="12" fill="#4F8F47"/></svg>
+              <img id="demo-other" src="img/road-sample.jpg" alt="Sample photo: a smooth road with no potholes" width="480" height="640" hidden>
               <span class="scan"></span>
             </div>
             <ol class="demo-steps">
@@ -918,8 +918,10 @@
     function play(kind) {
       timers.forEach(clearTimeout); timers = [];
       buttons.forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-kind') === kind ? 'true' : 'false'); });
-      document.getElementById('demo-pothole').hidden = kind !== 'pothole';
-      document.getElementById('demo-other').hidden = kind !== 'other';
+      ['pothole', 'other'].forEach(function (k) {
+        var el = document.getElementById('demo-' + k);
+        if (k === kind) el.removeAttribute('hidden'); else el.setAttribute('hidden', '');
+      });
       steps.forEach(function (li) { li.classList.remove('on'); });
       result.className = 'demo-result';
       fill.style.width = '0';
